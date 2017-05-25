@@ -1,0 +1,43 @@
+create or replace function findSum(so int)
+return int
+is
+suma int;
+
+begin
+
+declare int n1:=0;
+
+FOR i in n1..so
+LOOP
+        if mod(n,3)=0 then
+            
+            suma:=suma+n1;
+        else
+            if mod(n,5)=0 then
+            
+            suma:=suma+n1;
+            
+            end if;
+        end if;
+end loop;
+return suma;
+END;
+
+create table sums
+(
+base_value varchar2(5),
+result varchar2(4000)
+)
+
+create or replace trigger TrgfindSum
+before insert result on sums
+for each row
+begin
+declare cursor  so in select base_value from sums;
+declare result1 int;
+for value1 in so
+loop
+result1:= findSum(value1.base_value);
+ :new base_value := :new result1;
+end loop;
+end;
